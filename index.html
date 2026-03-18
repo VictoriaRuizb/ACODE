@@ -1,0 +1,192 @@
+<!DOCTYPE html> 
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estrella - Animales</title>
+    <style>
+        :root {
+            --verde-primario: #27ae60;
+            --verde-oscuro: #1e8449;
+            --fondo: #f8f9fa;
+            --blanco: #ffffff;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            margin: 0; 
+            background-color: var(--fondo); 
+            color: #333;
+        }
+
+        /* Encabezado con degradado */
+        header { 
+            background: linear-gradient(135deg, #2ecc71, #27ae60); 
+            color: white; 
+            padding: 30px 20px; 
+            text-align: center;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        header h1 { margin: 0; font-size: 32px; letter-spacing: 1px; }
+        header p { margin: 5px 0 0; opacity: 0.9; font-weight: 300; }
+
+        /* Buscador flotante */
+        .search-container { 
+            padding: 20px; 
+            position: sticky; 
+            top: 0; 
+            z-index: 100;
+            background: rgba(248, 249, 250, 0.8);
+            backdrop-filter: blur(10px); /* Efecto cristal */
+        }
+
+        #searchInput { 
+            width: 100%; 
+            padding: 15px 20px; 
+            border: 2px solid transparent; 
+            border-radius: 50px; 
+            box-sizing: border-box;
+            background: var(--blanco);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            font-size: 16px;
+            transition: 0.3s;
+            outline: none;
+        }
+
+        #searchInput:focus {
+            border-color: var(--verde-primario);
+            box-shadow: 0 4px 20px rgba(39, 174, 96, 0.2);
+        }
+
+        /* Contenedor de Tarjetas */
+        .suggestions { 
+            padding: 15px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+        }
+
+        .animal-card { 
+            background: var(--blanco); 
+            border-radius: 20px; 
+            overflow: hidden; 
+            margin-bottom: 30px; 
+            width: 100%; 
+            max-width: 400px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .animal-card:active {
+            transform: scale(0.98);
+        }
+
+        .animal-card img { 
+            width: 100%; 
+            height: 230px; 
+            object-fit: cover; 
+            border-bottom: 4px solid var(--verde-primario);
+        }
+        
+        .info { padding: 20px; }
+        
+        .info h2 { 
+            margin: 0 0 10px; 
+            color: var(--verde-oscuro); 
+            font-size: 24px;
+        }
+
+        .info p { 
+            margin: 6px 0; 
+            font-size: 15px; 
+            color: #666;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .info p strong { color: #333; }
+
+        /* Botón Estilizado */
+        .btn-ver-mas { 
+            display: block; 
+            width: 100%; 
+            padding: 14px; 
+            margin-top: 15px; 
+            background: linear-gradient(toright, #27ae60, #2ecc71);
+            color: white; 
+            border: none; 
+            border-radius: 12px; 
+            font-weight: bold; 
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Estrella</h1>
+        <p>Explora el Mundo Animal</p>
+    </header>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="¿Qué animal buscas?" onkeyup="filterAnimals()">
+    </div>
+
+    <div class="suggestions">
+        <!-- León -->
+        <div class="animal-card">
+            <img src="https://upload.wikimedia.org" alt="León">
+            <div class="info">
+                <h2>León</h2>
+                <p><span>Peso:</span> <strong>190 kg</strong></p>
+                <p><span>País:</span> <strong>Sudáfrica</strong></p>
+                <button class="btn-ver-mas" onclick="mostrarDetalle('León', 'El rey de la selva vive en manadas y su rugido se oye a 8km.')">Ver más</button>
+            </div>
+        </div>
+
+        <!-- Canguro -->
+        <div class="animal-card">
+            <img src="https://upload.wikimedia.org" alt="Canguro">
+            <div class="info">
+                <h2>Canguro</h2>
+                <p><span>Peso:</span> <strong>85 kg</strong></p>
+                <p><span>País:</span> <strong>Australia</strong></p>
+                <button class="btn-ver-mas" onclick="mostrarDetalle('Canguro', 'No pueden caminar hacia atrás y sus saltos son increíbles.')">Ver más</button>
+            </div>
+        </div>
+
+        <!-- Panda -->
+        <div class="animal-card">
+            <img src="https://upload.wikimedia.org" alt="Panda">
+            <div class="info">
+                <h2>Panda</h2>
+                <p><span>Peso:</span> <strong>110 kg</strong></p>
+                <p><span>País:</span> <strong>China</strong></p>
+                <button class="btn-ver-mas" onclick="mostrarDetalle('Panda', 'Comen hasta 12kg de bambú al día y son grandes trepadores.')">Ver más</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function filterAnimals() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.getElementsByClassName('animal-card');
+            for (let i = 0; i < cards.length; i++) {
+                let name = cards[i].getElementsByTagName('h2')[0].innerText.toLowerCase();
+                cards[i].style.display = name.includes(input) ? "block" : "none";
+            }
+        }
+
+        function mostrarDetalle(nombre, texto) {
+            alert("🐾 " + nombre + "\n\n" + texto);
+        }
+    </script>
+
+</body>
+</html>
